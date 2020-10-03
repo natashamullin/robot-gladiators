@@ -13,7 +13,8 @@ var startGame = function () {
         playerInfo.money = 10;
 
         if (playerInfo.health > 0) {
-            window.alert("Welcome to Robot Gladiators!" + (i + 5));
+            window.alert("Welcome to Robot Gladiators!" + (i + 1));
+            debugger;
 
 
             var pickedEnemyOBJ = enemyInfo[i];
@@ -46,7 +47,7 @@ var startGame = function () {
         console.log("entered the shop");
         // use switch to carry out action
         switch (shopOptionPrompt) {
-            case "REFILL": 
+            case "REFILL":
             case "refill":
                 playerInfo.refillHealth();
                 break;
@@ -237,8 +238,16 @@ var endGame = function () {
 
 
 // stArt the game when the page reloads
+var getPlayerName = function() {
+    var name ="";
+    while (name=== "" || name === null)  {
+        name = prompt("what is your robot's name?");
+    
+    }
+}
+
 var playerInfo = {
-    name: window.prompt("what is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -246,24 +255,25 @@ var playerInfo = {
         this.health = 100;
         this.money = 10;
         this.attack = 10;
+        window.prompt("what is your robot's name?")
     },
-    refillHealth: function(){
-        if(this.money>=7) {
+    refillHealth: function () {
+        if (this.money >= 7) {
             window.alert("refilling player's health by 20 for 7 dollars.");
             this.health += 20;
-            this.money -+ 7;
+            this.money - + 7;
         }
         else {
             womdow.alert("you don't have enough money!")
         }
-    } 
-        this.health += 20;
-        this.money -=7;
-    },
+    }, 
+        this.health += 20,
+    this.money -= 7,
+},
     upgradeAttack: function() {
-        this.attack +=6;
-        this.money -= 7;
-    }
+        this.attack += 6;
+this.money -= 7;}
+    
 };
 var enemyInfo = [
     {
@@ -279,7 +289,7 @@ var enemyInfo = [
         attack: randomNumber(9, 15)
     }
 ];
-var enemy,health = 50;
+var enemy, health = 50;
 startGame();
 fight();
 endGame();
