@@ -104,16 +104,25 @@ enemy.health = 50;
 
 
 
-var fight = function (enemy)  // repeat and execute as long as the enemy robot is alive
+var fightorskip = function ()  // repeat and execute as long as the enemy robot is alive
 {
 
 
     while (enemy.health > 0 && playerInfo.heath > 0) {
-        var promptFight = window.prompt("would you like to FIGHT or SKIP this battle? Enter 'fight' or 'skip' to choose");
-
+        if (fightOrSkip()) {
+            var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+            break;
+        }
+        window.prompt("would you like to FIGHT or SKIP this battle? Enter 'fight' or 'skip' to choose");
+        if (promptFight === "" || promptFight === null) {
+            window.alert("you need to provide a validanswer! please try again.");
+            return fightorskip();
+        }
 
         // if player choses to skip
-        if (promptFight === "skip" || promptFight === "SKIP") {
+        promptFight = promptFight.toLowerCase();
+        if (promptFight === "skip") {
+
 
             // confirm user wants to skip 
             var confirmSkip = window.confirm("Are you sure you'd like to quit?");
@@ -125,9 +134,9 @@ var fight = function (enemy)  // repeat and execute as long as the enemy robot i
             if (confirmSkip) {
                 window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
                 // subtract money from playerMoney for skipping
-                playerInfo.money = playerInfo.money - 10;
+                playerInfo.money = math.max(0, playerInfo.money - 10);
                 console.log("playerMoney", playerInfo.money);
-                break;
+                return true;
             }
 
 
@@ -160,7 +169,7 @@ var fight = function (enemy)  // repeat and execute as long as the enemy robot i
 
 
             // use debugger to pause script from running and check what's going on at that moment in the code
-            debugger;
+
 
             // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
             fight(pickedEnemyObj);
@@ -238,11 +247,11 @@ var endGame = function () {
 
 
 // stArt the game when the page reloads
-var getPlayerName = function() {
-    var name ="";
-    while (name=== "" || name === null)  {
+var getPlayerName = function () {
+    var name = "";
+    while (name === "" || name === null) {
         name = prompt("what is your robot's name?");
-    
+
     }
 }
 
@@ -266,8 +275,8 @@ var playerInfo = {
         else {
             womdow.alert("you don't have enough money!")
         }
-    }, 
-        this.health += 20,
+    },
+    this.health += 20,
     this.money -= 7,
 },
     upgradeAttack: function() {
