@@ -6,6 +6,7 @@ var startGame = function () {
     //reset player stats
     playerInfo.reset();
 
+
     for (var i = 0; i < enemyInfo.length; i++) {
         //reset player stats
         playerInfo.health = 100;
@@ -71,6 +72,7 @@ var startGame = function () {
 
     // play again
     startGame();
+
 };
 
 // pick new enemy to fight based on the index of the enemyNames array
@@ -118,55 +120,95 @@ var fightorskip = function ()  // repeat and execute as long as the enemy robot 
 
 
         }
+        var fight = function (enemy) {
+            // keep track of who goes first
+            var isPlayerTurn = true;
+
+            // randomly change turn order
+            if (Math.random > 0.5) {
+                isPlayerTurn = false;
+            }
+            if (Math.random() > 0.5) {
+                isPlayerTurn = false;
+            }
+
+            while (playerInfo.health > 0 && enemy.health > 0) {
+                if (isPlayerTurn) {
+                    //ask user if they'd like to fight or skip
+                    if (fightOrSkip()) {
+                        //if true leave fight
+                        break;
+                    }
+
+                    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+
+                    // remove enemy's health by subtracting the amount set in the the playerAttack var
+                    enemy.health = Math.max(0, enemy.health - damage);
+                    console.log(enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + "now has " + playerInfo.health + " health remaining.");
+
+                    // check enemy's health 
+                    if (enemy.health <= 0) {
+                        window.alert(enemy.name + " has died!");
+                        // award player money for winning
+                        playerInfo.money = playerInfo.money + 20;
+                        // leave while() loop since enemy is dead
+                        break;
+                    }
+                    else {
+                        window.alert(enemy.name + " still has " + enemy.health + " health left.");
+                    }
+                    //player get attacked first
+                }
+
+                else {
+                    var damage = randomNumber(enemy.atack - 3, enemy.attack);
+
+                    // remove players's health by subtracting the amount set in the enemyAttack variable
+                    playerInfo.health = Math.max(0, playerInfo.health - damage);
+                    console.log(
+                        enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
+                    );
+
+                    // check player health
+                    if (playerInfo.health <= 0) {
+                        window.alert(playerInfo.name + "has died!");
+                        //leave while() loop if playeris dead
+                        break;
+
+                    }
+                    else {
+                        window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+                    }
+                }
+                // switch turn order for next round
+                isPlayerTurn = !isPlayerTurn;
+            }
+
+        };
+
+        // use debugger to pause script from running and check what's going on at that moment in the code
 
 
-        // remove enemy's health by subtracting the amount set in the the playerAttack var
-        enemy.health = enemy.health - palyerInfo.attack;
-        console.log(playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + "now has " + enemy.health + " health remaining.");
-
-        // check enemy's health 
-        if (enemy.health <= 0) {
-            window.alert(enemy.name + " has died!");
-            // award player money for winning
-            playerInfo.money = playerInfo.money + 20;
-            // leave while() loop since enemy is dead
-            return;
-
-
-        }
-        else { window.alert(enemy.name + " still has " + enemy.health + " health left."); }
-        // remove players's health by subtracting the amount set in the enemyAttack variable
-        playerInfo.health = playerInfo.health - enemy.attack;
-        console.log(
-            enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
-        );
-
-
-        if (playerInfo.health > 0) {
-
-
-            // use debugger to pause script from running and check what's going on at that moment in the code
-
-
-            // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-            fight(pickedEnemyObj);
-        }
-
-        else {
-            window.alert("You have lost your robot in battle! Game Over!");
-            return;
-        }
-        // check player's health
-        if (playerInfo.health <= 0) { window.alert(playerInfo.name + " has died!"); return; }
-        else { window.alert(playerInfo.Name + " still has " + playerInfo.health + " health left."); }
-
-        // if no (false), ask question again by running fight () again
-        fight();
-
+        // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+        fight(pickedEnemyObj);
     }
 
 
+    window.alert("You have lost your robot in battle! Game Over!");
+    return;
 }
+// check player's health
+if (playerInfo.health <= 0) {
+    window.alert(playerInfo.name + " has died!");
+    return;
+}
+else {
+    window.alert(playerInfo.Name + " still has " + playerInfo.health + " health left.");
+}
+
+// if no (false), ask question again by running fight () again
+fight();
+
 //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
 enemy.health = enemy.health - palyerInfo.attack
 // Log a resulting message to the console so we know that it worked.
@@ -253,11 +295,12 @@ var playerInfo = {
             womdow.alert("you don't have enough money!")
         }
         this.health += 20,
-        this.money -= 7,
+            this.money -= 7,
     },
     upgradeAttack: function () {
         this.attack += 6;
-        this.money -= 7;}
+        this.money -= 7;
+    }
 
 };
 var enemyInfo = [
