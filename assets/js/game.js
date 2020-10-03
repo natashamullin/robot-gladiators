@@ -43,43 +43,20 @@ var startGame = function () {
     var shop = function () {
         // ask player what they'd liek to do 
         var shopOptionPrompt = window.prompt(
-            "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+            "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter 1,2,or 3 :1-REFILL, 2-UPGRADE, 3-LEAVE");
         console.log("entered the shop");
         // use switch to carry out action
+        shopOptionPrompt = parseInt(shopOptionPrompt);
         switch (shopOptionPrompt) {
-            case "REFILL":
-            case "refill":
+            case 1:
                 playerInfo.refillHealth();
                 break;
-                if (playerinfo.money >= 7) {
-                    window.alert("Refilling player's health by 20 for 7 dollars");
 
-                    //increase health anddecreasemoney
-                    playerInfo.health = playerInfo.health + 20;
-                    playerInfo.money = playerInfo.money - 7;
-                }
-                else {
-                    window.alert("you dont have enough money!")
-                }
-                break;
-            case "UPGRADE": // new case
-            case "upgrade":
+            case 2:
                 playerInfo.upgradeAttack();
                 break;
-                if (playerInfo.money >= 7) {
-                    window.alert("Upgrading player's attackby 6 for7 dollars.");
 
-                    //increase attack and decrease money
-                    playerInfo.attack = playerInfo.attack + 6;
-                    playerInfo.money = PlayerInfo.money - 7;
-                }
-                else {
-                    window.alert("You don't have enough money!");
-                }
-
-                break;
-            case "leave": // new case
-            case "LEAVE":
+            case 3:
                 window.alert("Leave the store.");
                 break;
             default:
@@ -275,14 +252,13 @@ var playerInfo = {
         else {
             womdow.alert("you don't have enough money!")
         }
+        this.health += 20,
+        this.money -= 7,
     },
-    this.health += 20,
-    this.money -= 7,
-},
-    upgradeAttack: function() {
+    upgradeAttack: function () {
         this.attack += 6;
-this.money -= 7;}
-    
+        this.money -= 7;}
+
 };
 var enemyInfo = [
     {
